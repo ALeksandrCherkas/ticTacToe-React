@@ -1,0 +1,22 @@
+.players{
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    font-size: 1.5rem;
+    &__first-player{
+        width: 30%;
+        color: aqua;
+    }
+
+    &__second-player{
+        width: 30%;
+        color: crimson;
+    }
+    .first{
+        color: aqua;
+    }
+    .second{
+        color: crimson;
+    }
+}
