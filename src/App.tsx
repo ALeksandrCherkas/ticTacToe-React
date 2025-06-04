@@ -17,6 +17,7 @@ function App() {
   const [totalGames, setTotalGames] = useState(0);
   const [gridSize, setGridSize] = useState(3);
   const [pendingGridSize, setPendingGridSize] = useState(3);
+  const [totalGameTime, setTotalGameTime] = useState(0);
 
   useEffect(() => {
     if (!gameActive) return;
@@ -26,6 +27,14 @@ function App() {
     }, 1000);
     return () => clearInterval(interval);
   }, [currentPlayer, gameActive]);
+
+  useEffect(() => {
+    if (!gameActive) return;
+    const interval = setInterval(() => {
+      setTotalGameTime(t => t + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [gameActive]);
 
   function calculateWinner(squares: (string | null)[], gridSize: number): 'X' | 'O' | null {
     for (let row = 0; row < gridSize; row++) {
@@ -112,6 +121,7 @@ function App() {
     setWinner(null);
     setGameActive(true);
     setCurrentPlayer('X');
+    setTotalGameTime(0);
   }
 
   function handleNextRound() {
@@ -121,6 +131,7 @@ function App() {
     setGameActive(false);
     setCurrentPlayer('X');
     setShowModal(false);
+    setTotalGameTime(0);
     setTotalGames(t => t + 1);
   }
 
@@ -165,8 +176,8 @@ function App() {
           <div className="modal__content" onClick={e => e.stopPropagation()}>
             <h2>
               {winner === 'Draw'
-                ? 'Draw!'
-                : `${winner === 'X' ? 'First' : 'Second'} player wins!`}
+                ? `Draw! The round was over in ${totalGameTime} seconds`
+                : `${winner === 'X' ? 'First' : 'Second'} player wins! The round was over in ${totalGameTime} seconds`}
             </h2>
             <button onClick={handleNextRound}>Ок</button>
           </div>
